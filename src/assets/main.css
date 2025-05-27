@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap');
+
+:root {
+  --bg-color: #f7f8fc;
+  --base-white: #ffffff;
+  --color-purple: #af52de;
+  --graphite-800: #1d1e20;
+  --graphite-300: #8A8F94;
+  --gray-300: #D0D5DD;
+  --error-500: #F04438;
+  --color-black: #000000;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  font-size: 14px;
+}
+
+body,
+#app {
+  min-height: 100vh;
+  background-color: var(--bg-color);
+}
+
+.logo {
+  font-family: "Racing Sans One", sans-serif;
+  font-weight: 400;
+  color: var(--color-purple);
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+.title {
+  font-weight: 600;
+  font-size: 30px;
+}
+
+.input {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  width: 100%;
+}
+
+button {
+  border: none;
+  outline: none;
+  background-color: transparent;
+  cursor: pointer;
+}
