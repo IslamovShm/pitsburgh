@@ -17,14 +17,12 @@ export default {
 
   getters: {
     isAuth: (state) => !!state.user,
-    email: (state) => state.user?.email || '',
-    phone: (state) => state.user?.phone || '',
-    name: (state) => state.user?.name || '',
+    profile: (state) => state.user ?? {},
   },
 
   mutations: {
-    setUser(state, payload) {
-      state.user = payload
+    setUser(state, user) {
+      state.user = user
     },
     clearUser(state) {
       state.user = null
