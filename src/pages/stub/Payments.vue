@@ -1,0 +1,1 @@
+<template>Payments - stub</template>

@@ -10,6 +10,10 @@
   --gray-300: #D0D5DD;
   --error-500: #F04438;
   --color-black: #000000;
+  --border-color: #8A8F9329;
+  --btn-bg: #EEF2F5;
+  --color-text: #242528;
+  --icon-gray: #5A5C5F;
 }
 
 * {

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue'
 import { useLogin } from '@/hooks/useLogin'
-import eyeSlash from '@/assets/eye-slash.svg'
+import eyeSlash from '@/assets/icons/eye-slash.svg'
 
 const { email, password, loading, errors, submit } = useLogin()
 const showPwd = ref(false)
