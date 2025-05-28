@@ -10,7 +10,7 @@ const collapsed = ref(false)
 </script>
 
 <template>
-  <aside class="aside">
+  <aside class="aside" :class="{ collapsed }">
     <header class="aside-header">
       <Logo class="logo" />
       <button @click="collapsed = !collapsed" type="button">
@@ -56,6 +56,15 @@ const collapsed = ref(false)
 
 .aside-nav {
   padding: 0 12px;
+}
+
+.collapsed {
+  max-width: fit-content;
+}
+
+.collapsed .aside-header .logo,
+.collapsed .aside-nav {
+  display: none;
 }
 
 </style>
