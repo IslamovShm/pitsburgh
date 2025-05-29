@@ -10,10 +10,12 @@
   --gray-300: #D0D5DD;
   --error-500: #F04438;
   --color-black: #000000;
-  --border-color: #8A8F9329;
+  --border-color: #EAECF0;
   --btn-bg: #EEF2F5;
   --color-text: #242528;
   --icon-gray: #5A5C5F;
+  --color-blue: #1570EF;
+  --color-light-blue: #E9F3FF;
 }
 
 * {
@@ -37,6 +39,10 @@ body,
   color: var(--color-purple);
 }
 
+main {
+  width: 100%;
+}
+
 ul {
   list-style: none;
 }
@@ -50,7 +56,13 @@ a {
   font-size: 30px;
 }
 
-.input {
+.base-title {
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 32px;
+}
+
+input {
   border: none;
   outline: none;
   background-color: transparent;

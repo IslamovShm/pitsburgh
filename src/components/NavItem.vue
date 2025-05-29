@@ -1,6 +1,5 @@
 <script setup>
 import chevronDown from '@/assets/icons/fi_chevron-down.svg'
-import Icon from './UI/Icon.vue';
 
 const props = defineProps({
   item: {
@@ -19,7 +18,7 @@ const props = defineProps({
   <button v-else type="button" class="nav__link nav__btn">
     <Icon :name="item.icon" class="nav__icon" />
     <span>{{ item.title }}</span>
-    <img :src="chevronDown" alt="chevron-down" class="nav__chevron" />
+    <Icon name="chevron_down" class="nav__chevron" />
   </button>
 </template>
 
@@ -40,6 +39,11 @@ const props = defineProps({
     font-weight: 500;
     font-size: 16px;
     color: var(--color-text);
+}
+
+.nav__chevron {
+  min-width: 20px;
+  height: 20px;
 }
 
 .active {

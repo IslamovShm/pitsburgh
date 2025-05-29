@@ -1,48 +1,115 @@
-import axios from 'axios'
+import api from '@/utils/api'
 
 export default {
   namespaced: true,
 
   state: () => ({
     recipes: [],
-    isLoading: false,
+    tags: [],
+
+    tag: '',
+    query: '',
+    sort: 'asc',
+
     skip: 0,
     limit: 11,
-    totalPages: 0,
+    total: 0,
+
+    busyRecipes: false,
+    busyTags: false,
   }),
 
-  getters: {},
+  getters: {
+    pages: (state) => Math.ceil(state.total / state.limit),
+    hasMore: (state) => state.total > state.skip + state.limit,
+    sortedTags: (state) => [...state.tags].sort((a, b) => a.localeCompare(b)),
+  },
 
   mutations: {
     setRecipes(state, recipes) {
       state.recipes = recipes
     },
-    setLoading(state, isLoading) {
-      state.isLoading = isLoading
+    setTags(state, tags) {
+      state.tags = tags
     },
-    setTotalPages(state, totalPages) {
-      state.totalPages = totalPages
+    setTotal(state, total) {
+      state.total = total
+    },
+
+    setTag(state, tag) {
+      state.tag = tag
+    },
+    setQuery(state, query) {
+      state.query = query
+    },
+    setSort(state, sort) {
+      state.sort = sort
+    },
+
+    resetSkip(state) {
+      state.skip = 0
+    },
+    nextPage(state) {
+      state.skip += state.limit
+    },
+
+    setBusyRecipes(state, busy) {
+      state.busyRecipes = busy
+    },
+    setBusyTags(state, busy) {
+      state.busyTags = busy
     },
   },
 
   actions: {
-    async fetchRecipes({ state, commit }) {
-        try {
-            commit('setLoading', true)
-            const { data } = await axios.get('https://dummyjson.com/recipes', {
-                params: {
-                    limit: state.limit,
-                    skip: state.skip,
-                }
-            })
+    async fetchTags({ state, commit }) {
+      if (state.tags.length) return
+      commit('setBusyTags', true)
+      try {
+        const { data } = await api.get('/recipes/tags')
+        commit('setTags', data)
+      } catch (e) {
+        console.error(e)
+      } finally {
+        commit('setBusyTags', false)
+      }
+    },
 
-            commit('setTotalPages', Math.ceil(data.total / state.limit))
-            commit('setRecipes', data.recipes)
-        } catch (e) {
-            console.log(e)
-        } finally {
-            commit('setLoading', false)
-        }
+    async fetchRecipes({ state, commit }) {
+      commit('setBusyRecipes', true)
+
+      let url = '/recipes'
+      const params = {
+        limit: state.limit,
+        skip: state.skip,
+        sortBy: 'name',
+        order: state.sort,
+      }
+
+      if (state.query.trim()) {
+        url = '/recipes/search'
+        params.q = state.query
+      }
+
+      if (state.tag.trim()) {
+        url = `/recipes/tag/${encodeURIComponent(state.tag)}`
+      }
+
+      try {
+        const { data } = await api.get(url, { params })
+        commit('setRecipes', data)
+        commit('setTotal', data.total)
+      } catch (e) {
+        console.error(e)
+      } finally {
+        commit('setBusyRecipes', false)
+      }
+    },
+
+    async loadNextPage({ getters, commit, dispatch }) {
+      if(!getters.hasMore) return
+      commit('nextPage')
+      await dispatch('fetchRecipes')
     }
-  }
+  },
 }
