@@ -6,6 +6,7 @@
   --base-white: #ffffff;
   --color-purple: #af52de;
   --graphite-800: #1d1e20;
+  --graphite-900: #141414;
   --graphite-300: #8A8F94;
   --gray-300: #D0D5DD;
   --error-500: #F04438;
@@ -16,6 +17,17 @@
   --icon-gray: #5A5C5F;
   --color-blue: #1570EF;
   --color-light-blue: #E9F3FF;
+  --color-orange: #FFB700;
+  --color-light-orange: rgba(245, 166, 35, 0.1);
+  --color-very-light-orange: rgba(245, 166, 35, 0.33);
+  --color-green: #44D54D;
+  --color-light-green: #90FB90;
+  --color-very-light-green: rgba(144, 251, 144, 0.5);
+  --color-red: #F24848;
+  --color-light-red: rgba(245, 166, 35, 0.1);
+  --color-very-light-red: rgba(248, 51, 51, 0.33);
+  --light-gray: rgba(16, 24, 40, 0.04);
+  
 }
 
 * {
@@ -74,4 +86,9 @@ button {
   outline: none;
   background-color: transparent;
   cursor: pointer;
+}
+
+table, tr {
+    border: 1px solid var(--border-color);
+    border-collapse: collapse;
 }

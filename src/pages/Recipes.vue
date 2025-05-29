@@ -3,12 +3,9 @@ import { useRecipes } from '@/hooks/useRecipes'
 import MainHeader from '@/components/MainHeader.vue'
 import SearchInput from '@/components/SearchInput.vue'
 import DropDown from '@/components/DropDown.vue'
+import RecipeList from '@/components/RecipeList.vue'
 
-const {
-  recipes, busyRecipes, hasMore,
-  tag, query, sort, tags, busyTags, pages,
-  loadMore
-} = useRecipes()
+const { recipes, page, busyRecipes, tag, query, toggleSort, tags, busyTags, pages } = useRecipes()
 </script>
 
 <template>
@@ -21,7 +18,13 @@ const {
         <SearchInput v-model="query" @search="query = $event" />
       </div>
 
-      
+      <RecipeList
+        :recipes="recipes"
+        :pages="pages"
+        v-model:page="page"
+        :busyRecipes="busyRecipes"
+        :toggleSort="toggleSort"
+      />
     </div>
   </main>
 </template>

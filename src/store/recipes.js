@@ -23,6 +23,7 @@ export default {
     pages: (state) => Math.ceil(state.total / state.limit),
     hasMore: (state) => state.total > state.skip + state.limit,
     sortedTags: (state) => [...state.tags].sort((a, b) => a.localeCompare(b)),
+    currentPage: (state) => Math.floor(state.skip / state.limit) + 1,
   },
 
   mutations: {
@@ -38,19 +39,21 @@ export default {
 
     setTag(state, tag) {
       state.tag = tag
+      state.query = ''
     },
     setQuery(state, query) {
       state.query = query
+      state.tag = ''
     },
-    setSort(state, sort) {
-      state.sort = sort
+    toggleSort(state) {
+      state.sort = state.sort === 'asc' ? 'desc' : 'asc'
     },
 
+    setPage(state, page) {
+      state.skip = (page - 1) * state.limit
+    },
     resetSkip(state) {
       state.skip = 0
-    },
-    nextPage(state) {
-      state.skip += state.limit
     },
 
     setBusyRecipes(state, busy) {
@@ -79,37 +82,28 @@ export default {
       commit('setBusyRecipes', true)
 
       let url = '/recipes'
-      const params = {
-        limit: state.limit,
-        skip: state.skip,
-        sortBy: 'name',
-        order: state.sort,
-      }
+      const params = { limit: state.limit, skip: state.skip, sortBy: 'name', order: state.sort }
 
-      if (state.query.trim()) {
-        url = '/recipes/search'
-        params.q = state.query
-      }
-
-      if (state.tag.trim()) {
+      if (state.tag.trim() && !state.query.trim()) {
         url = `/recipes/tag/${encodeURIComponent(state.tag)}`
+      } else if (state.query.trim()) {
+        url = '/recipes/search'
+        params.q = state.query.trim()
       }
 
       try {
         const { data } = await api.get(url, { params })
-        commit('setRecipes', data)
+        commit('setRecipes', data.recipes)
         commit('setTotal', data.total)
-      } catch (e) {
-        console.error(e)
       } finally {
         commit('setBusyRecipes', false)
       }
     },
 
     async loadNextPage({ getters, commit, dispatch }) {
-      if(!getters.hasMore) return
-      commit('nextPage')
+      if (!getters.hasMore) return
+      commit('setPage', getters.currentPage + 1)
       await dispatch('fetchRecipes')
-    }
+    },
   },
 }
